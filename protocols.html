@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocols - Indian Elucid Biology</title>
+    <meta name="description" content="Standard operating procedures for bioinformatics workflows including genome assembly, RNA-seq analysis, and variant annotation.">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">
+                <i class="fas fa-dna text-primary me-2"></i>
+                Indian Elucid Biology
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="services.html">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="protocols.html">Protocols</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="manuscript-assistant.html">Manuscript Assistant</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="authorship-model.html">Authorship Model</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-outline-primary btn-sm ms-2" id="themeToggle">
+                            <i class="fas fa-sun"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section d-flex align-items-center min-vh-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1 class="display-4 fw-bold mb-4">Standard Operating Procedures</h1>
+                    <p class="lead mb-4">
+                        Reproducible bioinformatics workflows with detailed commands and expected outputs
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Protocols Accordion -->
+    <section class="py-5">
+        <div class="container">
+            <div class="accordion protocol-accordion" id="protocolsAccordion">
+                
+                <!-- Protocol 1: Whole-Genome QC -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading1">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+                            <i class="fas fa-microscope me-3"></i>
+                            <strong>Protocol 1:</strong> Whole-Genome Quality Control
+                        </button>
+                    </h2>
+                    <div id="collapse1" class="accordion-collapse collapse show" data-bs-parent="#protocolsAccordion">
+                        <div class="accordion-body">
+                            <h5>Software Requirements</h5>
+                            <ul>
+                                <li>FastQC v0.11.9</li>
+                                <li>MultiQC v1.12</li>
+                                <li>Trimmomatic v0.39</li>
+                                <li>BWA v0.7.17</li>
+                            </ul>
+                            
+                            <h5>Commands</h5>
+                            <pre><code># Quality assessment
+fastqc -o qc_reports/ *.fastq.gz
+
+# MultiQC report
+multiqc qc_reports/ -o multiqc_report/
+
+# Trimming (if needed)
+trimmomatic PE input_1.fastq.gz input_2.fastq.gz \
+    output_1_paired.fastq.gz output_1_unpaired.fastq.gz \
+    output_2_paired.fastq.gz output_2_unpaired.fastq.gz \
+    ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 \
+    LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36</code></pre>
+                            
+                            <h5>Expected Outputs</h5>
+                            <ul>
+                                <li>FastQC HTML reports for each sample</li>
+                                <li>MultiQC summary report</li>
+                                <li>Quality metrics table</li>
+                                <li>Trimmed fastq files (if applicable)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Protocol 2: RNA-seq DESeq2 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading2">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
+                            <i class="fas fa-chart-line me-3"></i>
+                            <strong>Protocol 2:</strong> RNA-seq Differential Expression (DESeq2)
+                        </button>
+                    </h2>
+                    <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#protocolsAccordion">
+                        <div class="accordion-body">
+                            <h5>Software Requirements</h5>
+                            <ul>
+                                <li>STAR v2.7.9a</li>
+                                <li>featureCounts v2.0.3</li>
+                                <li>R v4.2.0</li>
+                                <li>DESeq2 v1.36.0</li>
+                            </ul>
+                            
+                            <h5>Commands</h5>
+                            <pre><code># STAR alignment
+STAR --genomeDir /path/to/genome \
+     --readFilesIn sample_R1.fastq.gz sample_R2.fastq.gz \
+     --readFilesCommand zcat \
+     --outFileNamePrefix sample_ \
+     --outSAMtype BAM SortedByCoordinate
+
+# Feature counting
+featureCounts -p -t exon -g gene_id \
+    -a annotation.gtf \
+    -o counts.txt *.bam
+
+# R script for DESeq2
+Rscript -e '
+library(DESeq2)
+counts <- read.table("counts.txt", header=TRUE, row.names=1)
+dds <- DESeqDataSetFromMatrix(counts, colData, ~condition)
+dds <- DESeq(dds)
+res <- results(dds)
+write.csv(res, "deseq2_results.csv")
+'</code></pre>
+                            
+                            <h5>Expected Outputs</h5>
+                            <ul>
+                                <li>Aligned BAM files</li>
+                                <li>Count matrix</li>
+                                <li>Differential expression results</li>
+                                <li>PCA and volcano plots</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Protocol 3: Long-read Assembly -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading3">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
+                            <i class="fas fa-puzzle-piece me-3"></i>
+                            <strong>Protocol 3:</strong> Long-read Assembly (Flye → Racon → Medaka)
+                        </button>
+                    </h2>
+                    <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#protocolsAccordion">
+                        <div class="accordion-body">
+                            <h5>Software Requirements</h5>
+                            <ul>
+                                <li>Flye v2.9</li>
+                                <li>Racon v1.5.0</li>
+                                <li>Medaka v1.7.2</li>
+                                <li>minimap2 v2.24</li>
+                            </ul>
+                            
+                            <h5>Commands</h5>
+                            <pre><code># Flye assembly
+flye --nano-raw reads.fastq.gz \
+     --out-dir flye_assembly \
+     --genome-size 100m
+
+# Racon polishing
+minimap2 -x map-ont flye_assembly/assembly.fasta reads.fastq.gz > aln.paf
+racon reads.fastq.gz aln.paf flye_assembly/assembly.fasta > racon.fasta
+
+# Medaka polishing
+medaka_consensus -i reads.fastq.gz -d racon.fasta -o medaka_polish</code></pre>
+                            
+                            <h5>Expected Outputs</h5>
+                            <ul>
+                                <li>Initial assembly (Flye)</li>
+                                <li>Racon polished assembly</li>
+                                <li>Medaka polished assembly</li>
+                                <li>Assembly statistics</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Protocol 4: Hi-C Scaffolding -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading4">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4">
+                            <i class="fas fa-link me-3"></i>
+                            <strong>Protocol 4:</strong> Hi-C Scaffolding (SALSA)
+                        </button>
+                    </h2>
+                    <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#protocolsAccordion">
+                        <div class="accordion-body">
+                            <h5>Software Requirements</h5>
+                            <ul>
+                                <li>SALSA v2.3</li>
+                                <li>BWA v0.7.17</li>
+                                <li>samtools v1.15</li>
+                                <li>bedtools v2.30.0</li>
+                            </ul>
+                            
+                            <h5>Commands</h5>
+                            <pre><code># BWA alignment
+bwa index draft_assembly.fasta
+bwa mem -t 16 draft_assembly.fasta hic_R1.fastq.gz hic_R2.fastq.gz | \
+    samtools view -bS - | samtools sort -o hic.bam
+
+# SALSA scaffolding
+python run_pipeline.py -a draft_assembly.fasta -l hic.bam -e GATC -o salsa_output</code></pre>
+                            
+                            <h5>Expected Outputs</h5>
+                            <ul>
+                                <li>Scaffolded assembly</li>
+                                <li>Scaffold statistics</li>
+                                <li>Contact matrix</li>
+                                <li>Scaffold visualization</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Protocol 5: Variant Annotation -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading5">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5">
+                            <i class="fas fa-tags me-3"></i>
+                            <strong>Protocol 5:</strong> Variant Annotation (VEP + dbNSFP)
+                        </button>
+                    </h2>
+                    <div id="collapse5" class="accordion-collapse collapse" data-bs-parent="#protocolsAccordion">
+                        <div class="accordion-body">
+                            <h5>Software Requirements</h5>
+                            <ul>
+                                <li>VEP v107</li>
+                                <li>dbNSFP v4.3a</li>
+                                <li>bcftools v1.15</li>
+                                <li>tabix v1.15</li>
+                            </ul>
+                            
+                            <h5>Commands</h5>
+                            <pre><code># VEP annotation
+vep --input_file variants.vcf \
+    --output_file variants_annotated.vcf \
+    --format vcf \
+    --species homo_sapiens \
+    --cache \
+    --offline \
+    --force_overwrite
+
+# dbNSFP annotation
+bcftools annotate -a dbNSFP4.3a.txt.gz \
+    -c CHROM,POS,REF,ALT,dbNSFP_gnomAD_exomes_AC,dbNSFP_gnomAD_genomes_AC \
+    variants_annotated.vcf > variants_final.vcf</code></pre>
+                            
+                            <h5>Expected Outputs</h5>
+                            <ul>
+                                <li>VEP annotated VCF</li>
+                                <li>dbNSFP annotated VCF</li>
+                                <li>Annotation summary report</li>
+                                <li>Impact prediction tables</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Protocol 6: Pangenome Graph -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading6">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse6">
+                            <i class="fas fa-project-diagram me-3"></i>
+                            <strong>Protocol 6:</strong> Pangenome Graph (VG toolkit)
+                        </button>
+                    </h2>
+                    <div id="collapse6" class="accordion-collapse collapse" data-bs-parent="#protocolsAccordion">
+                        <div class="accordion-body">
+                            <h5>Software Requirements</h5>
+                            <ul>
+                                <li>vg v1.46.0</li>
+                                <li>minimap2 v2.24</li>
+                                <li>GraphAligner v1.0.16</li>
+                                <li>Bandage v0.8.1</li>
+                            </ul>
+                            
+                            <h5>Commands</h5>
+                            <pre><code># Graph construction
+vg construct -r reference.fasta -v variants.vcf > graph.vg
+
+# Graph indexing
+vg index -x graph.xg -g graph.gcsa graph.vg
+
+# Read mapping
+vg map -x graph.xg -g graph.gcsa -f reads.fastq.gz > mapped.gam
+
+# Variant calling
+vg call graph.xg mapped.gam > calls.vcf</code></pre>
+                            
+                            <h5>Expected Outputs</h5>
+                            <ul>
+                                <li>Pangenome graph (VG format)</li>
+                                <li>Graph indexes</li>
+                                <li>Mapped reads</li>
+                                <li>Graph-based variant calls</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h3 class="mb-4">Download Complete Protocols</h3>
+                    <p class="lead mb-4">
+                        Get all protocols as a single document with additional details and troubleshooting guides.
+                    </p>
+                    <a href="#" class="btn btn-primary btn-lg me-3">
+                        <i class="fas fa-download me-2"></i>Download PDF
+                    </a>
+                    <a href="#" class="btn btn-outline-primary btn-lg">
+                        <i class="fab fa-github me-2"></i>View on GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="mb-0">© 2025 Indian Elucid Biology • Chandigarh, India</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0">All services are free during pre-revenue—please cite us.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/main.js"></script>
+</body>
+</html> 
